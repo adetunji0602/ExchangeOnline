@@ -1,0 +1,44 @@
+First, add the user (The administrator) to Organization Management and Compliance management role in the Exchange admin center
+
+
+
+Connect to Exchange Online PowerShell and run the below command
+
+
+Set-IRMConfiguration -InternalLicensingEnabled $false
+Set-IRMConfiguration -AzureRMSLicensingEnabled $false
+Set-IRMConfiguration -RMSOnlineKeySharingLocation "https://sp-rms.na.aadrm.com/TenantManagement/ServicePartner.svc"
+
+
+Connect to AADRM PowerShell to get the RMS Distribution URL of the RMS Online.
+Install-Module -Name AADRM
+Connect-AadrmService
+Get-AadrmConfiguration
+
+
+Copy the LicensingIntranetDistributionPointUrl (It will look like something like this https://4bf13279-18c9-4160-a1e8-1a129ebc46f3.rms.na.aadrm.com/_wmcs/licensing)
+Copy the CertificationIntranetDistributionPointUrl (It will look like something like this https://4bf13279-18c9-4160-a1e8-1a129ebc46f3.rms.na.aadrm.com/_wmcs/certification)
+
+
+Run the below command while connected to Exchange Online PowerShell
+
+
+$irmConfig = Get-IRMConfiguration
+$list = $irmConfig.LicensingLocation
+$list += "Paste the LicensingIntranetDistributionPointUrl here"
+Set-IRMConfiguration -LicensingLocation $list
+
+
+Repeat the same above command to stamp the "CertificationIntranetDistributionPointUrl"
+
+
+Run Get-IRMConfiguration to confirm the change (You should the URLs in the licensing location)
+
+
+Run the command below to set the Azure RMS licensing and Internal Licensing to True
+Set-IRMConfiguration -AzureRMSLicensingEnabled $True
+Set-IRMConfiguration -InternalLicensingEnabled $True
+Run Get-IRMConfiguration to confirm change
+
+
+Wait for some minutes and then try to apply the RMS template
