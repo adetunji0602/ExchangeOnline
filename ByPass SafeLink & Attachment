@@ -1,0 +1,52 @@
+Office 365 Advanced Threat Protection (ATP) Bypass Rules
+If you are using Advanced Threat Protection (ATP) in your mail environment and have experienced false clicks or false attachment opens, it is because ATP has link processing and attachment processing rules that are causing this. You can set up additional mail flow rules that allow you to bypass safe links and attachments processing for phishing test emails from KnowBe4's IP addresses. However, if you have a mail filter in front of your mail server, we recommend you whitelist in ATP by email header instead.
+ 
+Note:
+We recommend that you allow an hour for the rules to circulate to all of your users. To test out your rule, set up a phishing campaign for a small test group that includes yourself prior to starting a phishing campaign. 
+ 
+ 
+=====ATP Link Bypass Rule===========
+To set up a mail flow rule to bypass ATP link processing:
+1. Create a new mail flow rule in your Exchange/Office Admin center.
+2. Give the rule a name such as "Bypass ATP Links".
+3. Click More options....
+4. From the Apply this rule if…. drop-down menu, select The senders then select IP address is in any of these ranges or exactly matches. 
+5. Enter our IP address. For the most up-to-date list of our IP addresses, please see this article. 
+6. From the Do the following… drop-down menu, select Modify the message properties... and then set a message header.
+• Click the first *Enter text... link and set the message header to:
+• X-MS-Exchange-Organization-SkipSafeLinksProcessing
+• Click the second *Enter text... link and set the value to: 1
+7. Click Save.
+ 
+=======ATP Link Bypass Rule by Header=====
+To set up a mail flow rule to bypass ATP link processing by header:
+1. Create a new mail flow rule in your Exchange/Office Admin center.
+2. Give the rule a name such as "Bypass ATP Links".
+3. Click More options....
+4. From the Apply this rule if… drop-down menu,  select A message header... then selects includes any of these words.
+5. On the right side of that rule, you will see *Enter text... and *Enter words...
+6. Click *Enter text... to open the specify header name window. In this window, type the header name. For more information on what to enter for your header name, see the note below.
+7. Click *Enter words.... to open the specify words or phrases window. In this window, type the header value and click the + button and then, OK. For more information on what to enter for your header value, see the note below.
+Note:
+By default, the header for KnowBe4 mail is X-PHISHTEST. Whereas "X" is the header name and "PHISHTEST" is the header value. We recommend that you change the default header to a custom header or header token for enhanced security. You can change the header settings for your account from the Account Settings page. For more information, see our How to Edit Your Account Settings article.
+8. From the Do the following… drop-down menu, select Modify the message properties... and then set a message header.
+• Click the first *Enter text... link and set the message header to:
+• X-MS-Exchange-Organization-SkipSafeLinksProcessing
+• Click the second *Enter text... link and set the value to:1
+9. Click Save.
+ 
+=====ATP Attachment Bypass Rule========
+Below are the steps to set up a mail flow rule to bypass ATP Attachment Processing:
+1. Create a new mail flow rule in your Exchange/Office Admin center.
+2. Give the rule a name such as Bypass ATP Attachments.
+3. Click more options.
+4. From the Apply this rule if… drop-down, select The senders then select IP address is in any of these ranges or exactly matches. 
+5. Enter our IP addresses. Please see this article for the most up-to-date list of our IP addresses.
+6. From the Do the following… drop-down, select Modify the message properties... and then set a message header.
+• Click the first *Enter text... link and set the message header to:
+• X-MS-Exchange-Organization-SkipSafeAttachmentProcessing
+• Click the second *Enter text... link and set the value to:1
+7. Click Save. 
+
+
+From <https://support.knowbe4.com/hc/en-us/articles/115004326408-How-to-Bypass-Safe-Link-Attachment-Processing-of-Advanced-Threat-Protection-ATP-> 
