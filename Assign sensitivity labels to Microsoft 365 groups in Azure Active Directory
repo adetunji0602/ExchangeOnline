@@ -1,0 +1,95 @@
+PS C:\Users\Teevam> Install-Module AzureAdPreview -AllowClobber                                                                                                                                                                                 Untrusted repository
+You are installing the modules from an untrusted repository. If you trust this repository, change its
+InstallationPolicy value by running the Set-PSRepository cmdlet. Are you sure you want to install the modules from
+'PSGallery'?
+[Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is "N"): a
+PS C:\Users\Teevam> Import-Module AzureADPreview
+PS C:\Users\Teevam> Connect-AzureAD
+
+Account                      Environment TenantId                             TenantDomain            AccountType
+-------                      ----------- --------                             ------------            -----------
+GA-2@therefinedgeneration.tk AzureCloud  1aa6a2fa-0fb9-477b-9246-68ca17544c3c therefinedgeneration.tk User
+
+
+PS C:\Users\Teevam> $Setting = Get-AzureADDirectorySetting -Id (Get-AzureADDirectorySetting | where -Property DisplayName -Value "Group.Unified" -EQ).id
+Get-AzureADDirectorySetting : Cannot bind argument to parameter 'Id' because it is null.
+At line:1 char:44
++ ... Setting -Id (Get-AzureADDirectorySetting | where -Property DisplayNam ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidData: (:) [Get-AzureADDirectorySetting], ParameterBindingValidationException
+    + FullyQualifiedErrorId : ParameterArgumentValidationErrorNullNotAllowed,Microsoft.Open.MSGraphBeta.PowerShell.Get
+   DirectorySetting
+
+PS C:\Users\Teevam> Get-AzureADDirectorySettingTemplate
+
+Id                                   DisplayName                          Description
+--                                   -----------                          -----------
+08d542b9-071f-4e16-94b0-74abb372e3d9 Group.Unified.Guest                  Settings for a specific Unified Group
+4bc7f740-180e-4586-adb6-38b2e9024e6b Application                          ...
+898f1161-d651-43d1-805c-3b0b388a9fc2 Custom Policy Settings               ...
+80661d51-be2f-4d46-9713-98a2fcaec5bc Prohibited Names Settings            ...
+aad3907d-1d1a-448b-b3ef-7bf7f63db63b Prohibited Names Restricted Settings ...
+5cf42378-d67d-4f36-ba46-e8b86229381d Password Rule Settings               ...
+62375ab9-6b52-47ed-826b-58e47e0e304b Group.Unified                        ...
+dffd5d46-495d-40a9-8e21-954ff55e198a Consent Policy Settings              ...
+
+
+PS C:\Users\Teevam> $TemplateId = (Get-AzureADDirectorySettingTemplate | where { $_.DisplayName -eq "Group.Unified" }).Id
+PS C:\Users\Teevam> $Template = Get-AzureADDirectorySettingTemplate | where -Property Id -Value $TemplateId -EQ
+PS C:\Users\Teevam> $Setting = $Template.CreateDirectorySetting()
+PS C:\Users\Teevam> $Setting["UsageGuidelinesUrl"] = "https://guideline.example.com"
+PS C:\Users\Teevam> $Setting["EnableMIPLabels"] = "True"
+PS C:\Users\Teevam> New-AzureADDirectorySetting -DirectorySetting $Setting
+
+Id                                   DisplayName TemplateId                           Values
+--                                   ----------- ----------                           ------
+1ce89987-b897-49ee-9ffc-eef8cdd95bb0             62375ab9-6b52-47ed-826b-58e47e0e304b {class SettingValue {...
+
+
+PS C:\Users\Teevam> $Setting.Values
+
+Name                          Value
+----                          -----
+EnableMIPLabels               True
+CustomBlockedWordsList
+EnableMSStandardBlockedWords  False
+ClassificationDescriptions                                                                                              DefaultClassification                                                                                                   PrefixSuffixNamingRequirement                                                                                           AllowGuestsToBeGroupOwner     False                                                                                     AllowGuestsToAccessGroups     True                                                                                      GuestUsageGuidelinesUrl                                                                                                 GroupCreationAllowedGroupId
+AllowToAddGuests              True
+UsageGuidelinesUrl            https://guideline.example.com
+ClassificationList
+EnableGroupCreation           True
+
+
+PS C:\Users\Teevam> $Setting = Get-AzureADDirectorySetting -Id (Get-AzureADDirectorySetting | where -Property DisplayName -Value "Group.Unified" -EQ).id
+PS C:\Users\Teevam> $Setting.Values
+
+Name                          Value
+----                          -----
+EnableMIPLabels               True
+CustomBlockedWordsList
+EnableMSStandardBlockedWords  False
+ClassificationDescriptions
+DefaultClassification
+PrefixSuffixNamingRequirement
+AllowGuestsToBeGroupOwner     False
+AllowGuestsToAccessGroups     True
+GuestUsageGuidelinesUrl
+GroupCreationAllowedGroupId
+AllowToAddGuests              True
+UsageGuidelinesUrl            https://guideline.example.com
+ClassificationList
+EnableGroupCreation           True
+
+
+PS C:\Users\Teevam> $Setting["EnableMIPLabels"] = "True"
+PS C:\Users\Teevam> Set-AzureADDirectorySetting -Id $Setting.Id -DirectorySetting $Setting
+PS C:\Users\Teevam> $UserCredential = Get-Credential
+
+cmdlet Get-Credential at command pipeline position 1
+Supply values for the following parameters:
+Credential
+PS C:\Users\Teevam> Connect-IPPSSession -Credential $UserCredential -ConnectionUri https://ps.compliance.protection.outlook.com/powershell-liveid/
+WARNING: Your connection has been redirected to the following URI:
+"https://can01b.ps.compliance.protection.outlook.com/Powershell-LiveId?BasicAuthToOAuthConversion=true;PSVersion=5.1.19
+041.610"
+PS C:\Users\Teevam> Execute-AzureAdLabelSync
