@@ -1,0 +1,18 @@
+Symptoms: Rule Option greyed/Not present
+
+Action Taken
+-------------
+Run SOP Analyze OWA Mailbox Policy or run below PowerShell
+Set-OwaMailboxPolicy | Select RulesEnabled
+
+For Rave:
+Check under information management 
+
+Rule Enabled have two values which are 
+	1. $True
+	2. $False
+
+If it is set to $False run the following PowerShell cmdlet "Set-OwaMailboxPolicy" to modify OWA Mailbox Policy by setting RuleEnabled to True
+
+Set-OwaMailboxPolicy -Identity OwaMailboxPolicy-Default -RulesEnabled: $true
+https://learn.microsoft.com/en-us/powershell/module/exchange/set-owamailboxpolicy?view=exchange-ps
