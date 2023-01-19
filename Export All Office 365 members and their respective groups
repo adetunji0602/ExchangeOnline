@@ -1,5 +1,6 @@
 As an admin, monitoring groups and their membership is one of the routine tasks. Most admins prefer PowerShell over Microsoft admin center for better customization.
-PowerShell has several cmdlets like Get-MSolGroup, Get-AzureADGroup, Get-UnifiedGroup, Get-DistributionGroup, Get-DistributionGroupMember to get group information but in this tutorial, we will get all those group information in a single report. We the All-in-One PowerShell script, you will be able to export groups and their membership details to CSV file. 
+PowerShell has several cmdlets like Get-MSolGroup, Get-AzureADGroup, Get-UnifiedGroup, Get-DistributionGroup, Get-DistributionGroupMember to get group information but in this tutorial, we will get all those group information in a single report.
+With the All-in-One PowerShell script, you will be able to export groups and their membership details to CSV file. 
 
 Note: We are running a long script, so I recommend the use of PowerShell ISE
 
