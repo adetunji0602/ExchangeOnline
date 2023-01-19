@@ -222,3 +222,5 @@ The script exports output to 2 CSV files. One with summary of group information 
 You can decide to change the export location from the following lines
 $ExportCSV="C:\M365Group-DetailedMembersReport_$((Get-Date -format yyyy-MMM-dd-ddd` hh-mm` tt).ToString()).csv" #Detailed report
  $ExportSummaryCSV="C:\M365Group-SummaryReport_$((Get-Date -format yyyy-MMM-dd-ddd` hh-mm` tt).ToString()).csv" #Summary report
+
+Download the actual file to see other detail such as image - https://github.com/adetunji0602/ExchangeOnline/blob/main/Export%20All%20Office%20365%20members%20and%20their%20respective%20groups.docx
